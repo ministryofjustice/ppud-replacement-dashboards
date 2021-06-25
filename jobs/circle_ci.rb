@@ -16,15 +16,6 @@ module Constants
   SUCCESS_C  = 1.0
 end
 
-def broken_or_no_builds
-  {
-    label: 'N/A',
-    value: 'N/A',
-    committer: '',
-    state: 'broken'
-  }
-end
-
 def get_climate(builds = [])
   return '|' if builds.empty?
 
@@ -53,23 +44,21 @@ def get_climate(builds = [])
 end
 
 def get_build_info(builds = [])
-  return broken_or_no_builds if builds.empty?
+  return {} if builds.empty?
 
   build = builds.first
 
   {
-    label: "##{build['build_num']}",
+    build_num: "##{build['build_num']}",
     build_url: build['build_url'],
-    value: build['subject'][0..40].gsub(/\s\w+\s*$/, ' ...'),
+    commit_str: build['subject'][0..40].gsub(/\s\w+\s*$/, ' ...'),
     committer: build['committer_name'],
-    state: build['status'],
+    status: build['status'],
     climate: get_climate(builds)
   }
 end
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
-  CircleCi.configure { |c| c.token = ENV['CIRCLE_CI_AUTH_TOKEN'] }
-
   CONFIG[:projects].each do |project_name|
     project = CircleCi::Project.new(CONFIG[:org], project_name)
     res     = project.recent_builds_branch('main')
@@ -77,6 +66,6 @@ SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
     data_id = "circle-ci-#{CONFIG[:org]}-#{project_name}"
     data    = get_build_info(body)
 
-    send_event(data_id, { items: [data] })
+    send_event(data_id, data) unless data.empty?
   end
 end

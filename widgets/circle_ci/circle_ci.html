@@ -1,18 +1,12 @@
 <h1 class="title" data-bind="title"></h1>
 
-<ol>
-  <li data-foreach-item="items">
-    <span class="label" data-bind="item.label"></span>
-    <span class="value" data-bind="item.value"></span>
-  </li>
-</ol>
-
 <ul class="list-nostyle">
-  <li data-foreach-item="items">
-    <span class="label" data-bind="item.label"></span>
-    <span class="value" data-bind="item.value"></span>
-    <span class="committer" data-bind="item.committer"></span>
-    <div class="climate" data-bind="item.climate"></div>
+  <li>
+    <!-- data-foreach-item="items" -->
+    <span class="label" data-bind="build_num"></span>
+    <span class="value" data-bind="commit_str"></span>
+    <span class="committer" data-bind="committer"></span>
+    <div class="climate" data-bind="climate"></div>
   </li>
 </ul>
 

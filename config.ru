@@ -2,6 +2,7 @@ require 'dashing'
 
 configure do
   set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :default_dashboard, 'ci'
 
   # See http://www.sinatrarb.com/intro.html > Available Template Languages on
   # how to add additional template languages.
@@ -19,14 +20,5 @@ end
 map Sinatra::Application.assets_prefix do
   run Sinatra::Application.sprockets
 end
-
-CONFIG = {
-  org: 'ministryofjustice',
-  projects: %w[
-    manage-recalls-api
-    manage-recalls-ui
-    manage-recalls-e2e-tests
-  ]
-}
 
 run Sinatra::Application
