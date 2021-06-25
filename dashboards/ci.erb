@@ -1,0 +1,15 @@
+<% content_for(:title) { "Build Status" } %>
+
+<title>CircleCI</title>
+
+<div class="gridster ready">
+  <% CONFIG[:projects].sort.reverse.each_slice(3) do |projects| %>
+  <ul>
+    <% projects.each do |project| %>
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="circle-ci-<%= CONFIG[:org] %>-<%= project %>" data-view="CircleCi" data-unordered="true" data-title="<%= project %>"></div>
+    </li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>
