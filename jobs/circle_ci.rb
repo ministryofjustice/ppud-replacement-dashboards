@@ -1,5 +1,4 @@
 require 'circleci'
-require 'awesome_print'
 
 module Constants
   STATUSES = %w[failed passed running started broken timedout no_tests fixed success canceled]
@@ -43,29 +42,37 @@ def get_climate(builds = [])
   end
 end
 
-def get_build_info(builds = [])
+def build_info(builds = [])
   return {} if builds.empty?
 
   build = builds.first
 
   {
-    build_num: "##{build['build_num']}",
+    build_num: build['build_num'],
     build_url: build['build_url'],
-    commit_str: build['subject'][0..40].gsub(/\s\w+\s*$/, ' ...'),
+    workflow: build['workflows']['workflow_name'],
+    job_name: build['workflows']['job_name'],
     committer: build['committer_name'],
+    commit_str: build['subject'],
     status: build['status'],
     climate: get_climate(builds)
   }
 end
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
-  CONFIG[:projects].each do |project_name|
-    project = CircleCi::Project.new(CONFIG[:org], project_name)
-    res     = project.recent_builds_branch('main')
-    body    = res.body.is_a?(Array) ? res.body : []
-    data_id = "circle-ci-#{CONFIG[:org]}-#{project_name}"
-    data    = get_build_info(body)
+  Ppud.projects_and_workflows.each do |project, workflows|
+    workflows.each do |workflow, builds|
+      data_id = "circle-ci-#{GH_ORG}-#{project}-#{workflow}"
 
-    send_event(data_id, data) unless data.empty?
+      puts "Processing: #{data_id}"
+      begin
+        data = build_info(builds)
+      rescue StandardError => e
+        warn "ISSUE WITH #{data_id}"
+        next
+      end
+
+      send_event(data_id, data) unless data.empty?
+    end
   end
 end

@@ -1,13 +1,10 @@
-<h1 class="title" data-bind="title"></h1>
+<a href="#" class="circle_ci_link">
+  <span class="link-hidden" data-bind="build_url"></span>
+  <h1 class="title" data-bind="title"></h1>
+  <h3 class="subtitle" data-bind="workflow"></h3>
 
-<ul class="list-nostyle">
-  <li>
-    <!-- data-foreach-item="items" -->
-    <span class="label" data-bind="build_num"></span>
-    <span class="value" data-bind="commit_str"></span>
-    <span class="committer" data-bind="committer"></span>
-    <div class="climate" data-bind="climate"></div>
-  </li>
-</ul>
-
+  <span class="build_num" data-bind="build_num | prepend '#'"></span>
+  <span class="job_name" data-bind="job_name | prepend ' - '"></span>
+</a>
+<div class="climate" data-bind="climate"></div>
 <p class="updated-at" data-bind="updatedAtMessage"></p>

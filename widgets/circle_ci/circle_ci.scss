@@ -1,40 +1,47 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$value-color:              rgba(255, 255, 255, 0.8);
-$background-color:         #78A300;
+$value-color: rgba(255, 255, 255, 0.8);
+$background-color: #78a300;
 $background-default-color: #e5e5e5;
-$background-error-color:   #903d3d;
-$background-passed-color:  #6fb269;
+$background-error-color: #903d3d;
+$background-passed-color: #6fb269;
 $background-started-color: #84c0d7;
-$background-queued-color:  #84c0d7;
-$background-broken-color:  #222426;
+$background-queued-color: #84c0d7;
+$background-broken-color: #222426;
 $background-no-test-color: #d2ab59;
 
-$title-color:       rgba(255, 255, 255, 0.8);
-$label-color:       rgba(255, 255, 255, 0.8);
-$moreinfo-color:    rgba(255, 255, 255, 0.8);
-
+$title-color: rgba(255, 255, 255, 0.8);
+$label-color: rgba(255, 255, 255, 0.8);
+$moreinfo-color: rgba(255, 255, 255, 0.8);
 
 // ----------------------------------------------------------------------------
 // Font
 // ----------------------------------------------------------------------------
 @font-face {
-    font-family: 'ClimaconsRegular';
-    src: url('/assets/weather.eot');
-    src: url('/assets/weather.eot') format('embedded-opentype'),
-         url('/assets/weather.woff') format('woff'),
-         url('/assets/weather.ttf') format('truetype'),
-         url('/assets/weather.svg#ClimaconsRegular') format('svg');
+  font-family: "ClimaconsRegular";
+  src: url("/assets/weather.eot");
+  src: url("/assets/weather.eot") format("embedded-opentype"),
+    url("/assets/weather.woff") format("woff"),
+    url("/assets/weather.ttf") format("truetype"),
+    url("/assets/weather.svg#ClimaconsRegular") format("svg");
 }
 
 // ----------------------------------------------------------------------------
 // Widget-list styles
 // ----------------------------------------------------------------------------
 .widget-circle-ci {
-
   background-color: $background-default-color;
   vertical-align: top;
+
+  .link-hidden {
+    display: none;
+  }
+
+  .widget-circle-ci-inner {
+    margin: 0 15px;
+    font-size: 0.9em;
+  }
 
   img {
     position: absolute;
@@ -45,11 +52,20 @@ $moreinfo-color:    rgba(255, 255, 255, 0.8);
 
   .title {
     color: $title-color;
-    font-size: 2.0em;
+    font-size: 1.6em;
     font-weight: bolder;
+    margin-bottom: 10px;
   }
 
-  ol, ul {
+  .subtitle {
+    color: $title-color;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  ol,
+  ul {
     margin: 0 15px;
     text-align: left;
     color: $label-color;
@@ -67,39 +83,19 @@ $moreinfo-color:    rgba(255, 255, 255, 0.8);
     margin-bottom: 5px;
   }
 
-  .list-nostyle {
-    list-style: none;
-  }
-
-  .label {
-    text-align: center;
-    display: block;
+  .build_num, .job_name {
+    display: inline-block;
     color: $label-color;
-    font-size: 24px;
-    word-wrap: break-word;
-  }
-
-  .value {
-    text-align: center;
-    display: block;
     font-weight: 600;
-    color: $value-color;
-    font-size: 24px;
-    word-wrap: break-word;
-    width: 400px;
-    margin: 0 auto;
-    font-size: 1.0em;
   }
 
-.committer {
-    text-align: center;
-    display: block;
-    color: $value-color;
-    font-size: 24px;
-    word-wrap: break-word;
-    width: 300px;
-    margin: 0 auto;
-    font-size: 1.3em;
+  .circle_ci_link:hover {
+    .title,
+    .subtitle,
+    .build_num,
+    .job_name {
+      color: #222426;
+    }
   }
 
   .updated-at {
@@ -111,12 +107,12 @@ $moreinfo-color:    rgba(255, 255, 255, 0.8);
   }
 
   div.climate {
-    font-family: 'ClimaconsRegular';
+    font-family: "ClimaconsRegular";
     position: absolute;
     left: 30px;
     bottom: 14px;
     font-size: 3.5em;
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.9);
   }
 
   &.failed,
@@ -146,9 +142,26 @@ $moreinfo-color:    rgba(255, 255, 255, 0.8);
     background-color: $background-default-color;
     color: $background-broken-color;
 
-    ul, li, div, .title, .committer, .value, .label, .climate {
+    .circle_ci_link:hover {
+      .title,
+      .subtitle,
+      .build_num,
+      .job_name {
+        color: #d2ab59;
+      }
+    }
+
+    ul,
+    li,
+    div,
+    .title,
+    .subtitle,
+    .build_num,
+    .job_name,
+    .value,
+    .label,
+    .climate {
       color: $background-broken-color;
     }
   }
-
 }

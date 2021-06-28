@@ -1,15 +1,21 @@
 <% content_for(:title) { "Build Status" } %>
 
+<%
+  projects_and_workflows = Ppud.projects_and_workflows
+  projects = projects_and_workflows.keys
+%>
+
 <title>CircleCI</title>
 
 <div class="gridster ready">
-  <% CONFIG[:projects].sort.reverse.each_slice(3) do |projects| %>
   <ul>
-    <% projects.each do |project| %>
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="circle-ci-<%= CONFIG[:org] %>-<%= project %>" data-view="CircleCi" data-title="<%= project %>"></div>
-    </li>
+    <% projects.sort.reverse.each do |project_name| %>
+      <% workflows = projects_and_workflows[project_name].keys %>
+      <% workflows.sort.reverse.each do |workflow_name| %>
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+          <div data-id="circle-ci-<%= GH_ORG %>-<%= project_name %>-<%= workflow_name %>" data-view="CircleCi" data-title="<%= project_name %>"></div>
+        </li>
+      <% end %>
     <% end %>
   </ul>
-  <% end %>
 </div>
