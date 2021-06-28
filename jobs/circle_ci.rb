@@ -64,11 +64,10 @@ SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
     workflows.each do |workflow, builds|
       data_id = "circle-ci-#{GH_ORG}-#{project}-#{workflow}"
 
-      puts "Processing: #{data_id}"
       begin
         data = build_info(builds)
       rescue StandardError => e
-        warn "ISSUE WITH #{data_id}"
+        warn "ERROR processing #{data_id}"
         next
       end
 

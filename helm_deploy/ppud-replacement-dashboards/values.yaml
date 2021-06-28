@@ -1,0 +1,33 @@
+---
+generic-service:
+  nameOverride: ppud-replacement-dashboards
+
+  replicaCount: 4
+
+  image:
+    repository: quay.io/hmpps/ppud-replacement-dashboards
+    tag: app_version    # override at deployment time
+    port: 3000
+
+  ingress:
+    enabled: true
+    host: app-hostname.local    # override per environment
+    tlsSecretName: ppud-replacement-dashboards-cert
+    path: /
+
+  livenessProbe:
+    httpGet:
+      path: /ci
+
+  readinessProbe:
+    httpGet:
+      path: /ci
+
+  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
+  # namespace_secrets:
+  #   [name of kubernetes secret]:
+  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
+
+  namespace_secrets:
+    ppud-replacement-dashboards:
+      CIRCLE_CI_AUTH_TOKEN: "CIRCLE_CI_AUTH_TOKEN"
