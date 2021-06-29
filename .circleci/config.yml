@@ -12,6 +12,9 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - hmpps/helm_lint:
+          name: helm_lint
+
       - hmpps/build_docker:
           name: build_docker
           publish: false
