@@ -9,10 +9,10 @@ RUN apk update && \
   apk upgrade && \
   apk add --no-cache nodejs tzdata build-base
 
-RUN addgroup appuser && \
-  adduser -D -G appuser -h /app appuser
+RUN addgroup --gid 2000 appuser && \
+  adduser --uid 2000 --disabled-password --ingroup appuser --home /app appuser
 
-USER appuser
+USER 2000
 WORKDIR /app
 
 COPY Gemfile /app/Gemfile
