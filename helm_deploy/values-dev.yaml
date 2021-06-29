@@ -1,5 +1,5 @@
 ---
-# Per environment values which override defaults in manage-recalls-ui/values.yaml
+# Per environment values which override defaults in ppud-replacement-dashboards/values.yaml
 
 generic-service:
   replicaCount: 1
@@ -7,3 +7,6 @@ generic-service:
   ingress:
     host: ppud-replacement-dashboards.hmpps.service.justice.gov.uk
     tlsSecretName: ppud-replacement-dev-cert
+
+generic-prometheus-alerts:
+  alertSeverity: ppud-replacement-alerts
