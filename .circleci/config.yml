@@ -37,7 +37,6 @@ workflows:
           requires:
             - helm_lint
             - trivy_scan
-            - unit_test
           filters:
             branches:
               only:
