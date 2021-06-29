@@ -36,7 +36,6 @@ workflows:
           name: publish_docker
           requires:
             - helm_lint
-            - integration_test
             - trivy_scan
             - unit_test
           filters:
