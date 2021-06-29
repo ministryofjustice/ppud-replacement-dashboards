@@ -3,9 +3,14 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@3.4
 
+parameters:
+  alerts-slack-channel:
+    type: string
+    default: ppud-replacement-devs
+
 workflows:
   version: 2
-  build-test-and-deploy:
+  build-and-deploy:
     jobs:
       - hmpps/build_docker:
           name: build_docker
@@ -47,34 +52,6 @@ workflows:
           requires:
             - publish_docker
 
-      - request-preprod-approval:
-          type: approval
-          requires:
-            - deploy_dev
-      - hmpps/deploy_env:
-          name: deploy_preprod
-          env: preprod
-          context:
-            - hmpps-common-vars
-            - ppud-replacement-preprod
-          requires:
-            - request-preprod-approval
-
-      - request-prod-approval:
-          type: approval
-          requires:
-            - deploy_preprod
-      - hmpps/deploy_env:
-          name: deploy_prod
-          env: prod
-          context:
-            - hmpps-common-vars
-            - ppud-replacement-prod
-          requires:
-            - request-prod-approval
-          slack_notification: true
-          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
-
   security:
     triggers:
       - schedule:
@@ -84,13 +61,6 @@ workflows:
               only:
                 - main
     jobs:
-      - check_outdated:
-          context:
-            - hmpps-common-vars
-      - hmpps/npm_security_audit:
-          context:
-            - hmpps-common-vars
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
       - hmpps/veracode_policy_scan:
           context:
             - veracode-credentials
