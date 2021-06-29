@@ -9,16 +9,22 @@ RUN apk update && \
   apk upgrade && \
   apk add --no-cache nodejs tzdata build-base
 
+RUN addgroup appuser && \
+  adduser -D -G appuser -h /app appuser
+
+USER appuser
 WORKDIR /app
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 
 RUN bundle config set --local without 'dev' && \
+  bundle config set --local deployment 'true' && \
+  bundle config set --local frozen 'true' && \
   bundle install
 
-COPY . /app/
+COPY . .
 
 EXPOSE 3000
 
-CMD ["smashing", "start", "-p", "3000", "-e", "production"]
+CMD ["bundle", "exec", "smashing", "start", "-p", "3000", "-e", "production"]
