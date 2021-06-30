@@ -12,7 +12,7 @@
     <% projects.sort.reverse.each do |project_name| %>
       <% workflows = projects_and_workflows[project_name].keys %>
       <% workflows.sort.reverse.each do |workflow_name| %>
-        <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
           <div data-id="circle-ci-<%= GH_ORG %>-<%= project_name %>-<%= workflow_name %>" data-view="CircleCi" data-title="<%= project_name %>"></div>
         </li>
       <% end %>
