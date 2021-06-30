@@ -33,6 +33,7 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
 .widget-circle-ci {
   background-color: $background-default-color;
   vertical-align: top;
+  font-size: 14px;
 
   .link-hidden {
     display: none;
@@ -83,7 +84,8 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
     margin-bottom: 5px;
   }
 
-  .build_num, .job_name {
+  .build_num,
+  .job_name {
     display: inline-block;
     color: $label-color;
     font-weight: 600;
@@ -100,6 +102,9 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
 
   .updated-at {
     color: rgba(0, 0, 0, 0.3);
+    text-align: right;
+    right: 30px;
+    bottom: 14px;
   }
 
   .more-info {
