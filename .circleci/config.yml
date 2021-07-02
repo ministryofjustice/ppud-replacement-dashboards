@@ -12,6 +12,11 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - hmpps/veracode_policy_scan:
+          context:
+            - veracode-credentials
+            - hmpps-common-vars
+
       - hmpps/helm_lint:
           name: helm_lint
 
