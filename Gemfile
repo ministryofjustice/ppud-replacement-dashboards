@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'circleci'
+gem 'httparty'
 gem 'smashing'
 
 group :dev do
@@ -9,6 +9,5 @@ group :dev do
   gem 'pry'
   gem 'rake'
   gem 'rubocop'
-  gem 'solargraph'
   gem 'webmock'
 end

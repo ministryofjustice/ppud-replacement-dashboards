@@ -1,5 +1,3 @@
-require 'circleci'
-
 module Constants
   STATUSES = %w[failed passed running started broken timedout no_tests fixed success canceled]
   FAILED, PASSED, RUNNING, STARTED, BROKEN, TIMEDOUT, NOTESTS, FIXED, SUCCESS, CANCELED = STATUSES
@@ -60,9 +58,11 @@ def build_info(builds = [])
 end
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
-  Ppud.projects_and_workflows.each do |project, workflows|
+  api = CircleCiApi.new
+
+  api.projects_and_workflows.each do |project, workflows|
     workflows.each do |workflow, build_data|
-      data_id = "circle-ci-#{GH_ORG}-#{project}-#{workflow}"
+      data_id = "circle-ci-#{api.gh_org}-#{project}-#{workflow}"
 
       begin
         data = build_info(build_data['builds'])
