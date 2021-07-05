@@ -1,4 +1,5 @@
 require 'circleci'
+require 'date'
 
 GH_ORG = 'ministryofjustice'
 
@@ -19,7 +20,7 @@ class Ppud
     end
   end
 
-  def self.workflows(project_name)
+  def self.workflows_for_project(project_name)
     workflows = {}
 
     project = CircleCi::Project.new(GH_ORG, project_name)
@@ -27,22 +28,26 @@ class Ppud
 
     builds.each do |build|
       workflow_name = build['workflows']['workflow_name']
-      next if workflow_name == 'Build Error' || workflow_name == 'workflow'
+      next if ['Build Error', 'workflow'].include?(workflow_name)
 
-      workflows[workflow_name] ||= []
-      workflows[workflow_name].push(build)
+      workflows[workflow_name] ||= {
+        'id' => build['workflows']['workflow_id'],
+        'builds' => []
+      }
+
+      workflows[workflow_name]['builds'].push(build)
     end
 
-    return workflows
+    workflows
   end
 
   def self.projects_and_workflows
     ppud_projects = {}
 
     Ppud.projects.each do |project_name|
-      ppud_projects[project_name] = Ppud.workflows(project_name)
+      ppud_projects[project_name] = Ppud.workflows_for_project(project_name)
     end
 
-    return ppud_projects
+    ppud_projects
   end
 end

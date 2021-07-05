@@ -61,11 +61,11 @@ end
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
   Ppud.projects_and_workflows.each do |project, workflows|
-    workflows.each do |workflow, builds|
+    workflows.each do |workflow, build_data|
       data_id = "circle-ci-#{GH_ORG}-#{project}-#{workflow}"
 
       begin
-        data = build_info(builds)
+        data = build_info(build_data['builds'])
       rescue StandardError => e
         warn "ERROR processing #{data_id}"
         next
