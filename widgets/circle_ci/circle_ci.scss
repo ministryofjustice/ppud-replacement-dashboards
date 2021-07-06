@@ -85,7 +85,7 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
     margin-bottom: 5px;
   }
 
-  .build_num,
+  .pipeline_num,
   .job_name {
     display: inline-block;
     color: $label-color;
@@ -95,7 +95,7 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
   .circle_ci_link:hover {
     .title,
     .subtitle,
-    .build_num,
+    .pipeline_num,
     .job_name {
       color: #222426;
     }
@@ -138,7 +138,8 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
 
   &.passed,
   &.success,
-  &.fixed {
+  &.fixed,
+  &.on_hold {
     background-color: $background-passed-color;
   }
 
@@ -151,7 +152,7 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
     .circle_ci_link:hover {
       .title,
       .subtitle,
-      .build_num,
+      .pipeline_num,
       .job_name {
         color: #d2ab59;
       }
@@ -162,7 +163,7 @@ $moreinfo-color: rgba(255, 255, 255, 0.8);
     div,
     .title,
     .subtitle,
-    .build_num,
+    .pipeline_num,
     .job_name,
     .value,
     .label,

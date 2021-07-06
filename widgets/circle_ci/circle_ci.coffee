@@ -3,7 +3,7 @@ class Dashing.CircleCi extends Dashing.Widget
     $(@node).find('ol').remove()
 
   onData: (data) ->
-    @_checkStatus(data.status)
+    @_checkStatus(data.workflow_status)
 
     link = $(@node).find('span.link-hidden').text()
     $(@node).find('a.circle_ci_link').attr('href', link)

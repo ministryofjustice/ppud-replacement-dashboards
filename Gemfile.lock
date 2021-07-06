@@ -119,6 +119,7 @@ DEPENDENCIES
   awesome_print
   httparty
   minitest
+  parallel
   pry
   rake
   rubocop
