@@ -10,3 +10,12 @@ Metrics/MethodLength:
   Enabled: true
   CountComments: false
   Max: 15
+
+Metrics/BlockLength:
+  Description: 'Avoid long blocks with many lines.'
+  Enabled: true
+  CountComments: false
+  Max: 25
+  Exclude:
+    - '**/*.gemspec'
+    - '**/*_spec.rb'

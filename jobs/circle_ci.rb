@@ -2,7 +2,7 @@
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
   api = CircleCiApi.new
-  api.get_projects_and_workflows.each do |project, workflows|
+  api.projects_and_workflows.each do |project, workflows|
     workflows.each do |workflow, workflow_data|
       data_id = "circle-ci-#{api.gh_org}-#{project}-#{workflow}"
       data = {

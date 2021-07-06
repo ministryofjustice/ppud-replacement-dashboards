@@ -24,7 +24,7 @@ class CircleCiApi
   include HTTParty
   base_uri 'https://circleci.com/api'
   format :json
-  logger ::Logger.new($stdout), :info, :apache
+  # logger ::Logger.new($stdout), :info, :apache
 
   attr_reader :gh_org
 
@@ -38,23 +38,23 @@ class CircleCiApi
     }
   end
 
-  def get_projects
-    @projects ||= self
-                  .class
-                  .get('/v1.1/projects', @options)
-                  .select { |proj| proj['username'] == @gh_org }
-                  .sort_by { |proj| proj['reponame'] }
+  def projects
+    self
+      .class
+      .get('/v1.1/projects', @options)
+      .select { |proj| proj['username'] == @gh_org }
+      .sort_by { |proj| proj['reponame'] }
   end
 
-  def get_workflows_for_project(project)
+  def workflows_for_project(project)
     workflows = {}
     workflows_to_process = project.dig('branches', 'main', 'latest_workflows')
 
     Parallel.each(workflows_to_process, in_threads: 5) do |workflow_name, workflow_info|
       next if ['Build%20Error', 'workflow'].include?(workflow_name)
 
-      workflow = get_workflow(workflow_info['id'])
-      recent_runs = get_workflow_runs(workflow)
+      workflow = workflow(workflow_info['id'])
+      recent_runs = workflow_runs(workflow)
       workflows[workflow_name] = workflow.merge(
         {
           'pipeline_url' => workflow_pipeline_url(workflow),
@@ -67,21 +67,21 @@ class CircleCiApi
     workflows
   end
 
-  def get_workflow(workflow_id)
+  def workflow(workflow_id)
     self.class.get("/v2/workflow/#{workflow_id}")
   end
 
-  def get_workflow_runs(workflow)
+  def workflow_runs(workflow)
     self
       .class
       .get("/v2/insights/#{workflow['project_slug']}/workflows/#{workflow['name']}?branch=main")['items']
   end
 
-  def get_projects_and_workflows
+  def projects_and_workflows
     data = {}
 
-    Parallel.each(get_projects, in_threads: 5) do |project|
-      data[project['reponame']] = get_workflows_for_project(project)
+    Parallel.each(projects, in_threads: 5) do |project|
+      data[project['reponame']] = workflows_for_project(project)
     end
 
     data
@@ -123,10 +123,12 @@ class CircleCiApi
 
   def workflow_pipeline_url(workflow)
     format(
-      'https://app.circleci.com/pipelines/%s/%s/workflows/%s',
-      workflow['project_slug'],
-      workflow['pipeline_number'],
-      workflow['id']
+      'https://app.circleci.com/pipelines/%<slug>s/%<num>s/workflows/%<id>s',
+      {
+        slug: workflow['project_slug'],
+        num: workflow['pipeline_number'],
+        id: workflow['id']
+      }
     )
   end
 end

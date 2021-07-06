@@ -54,11 +54,11 @@ describe CircleCiApi do
   it '#projects - returns an array of subscribed to projects' do
     stub_projects_request
 
-    _(subject.get_projects.length).must_equal(2)
-    _(subject.get_projects.map { |proj| proj['reponame'] }).must_equal(%w[manage-recalls-api manage-recalls-ui])
+    _(subject.projects.length).must_equal(2)
+    _(subject.projects.map { |proj| proj['reponame'] }).must_equal(%w[manage-recalls-api manage-recalls-ui])
   end
 
-  it '#get_workflows_for_project(<project>) - returns a hash of workflows for the project (and their status)' do
+  it '#workflows_for_project(<project>) - returns a hash of workflows for the project (and their status)' do
     stub_projects_request
     stub_workflow_requests
     stub_workflow_runs_requests
@@ -80,8 +80,8 @@ describe CircleCiApi do
       }
     }
 
-    projects = subject.get_projects
-    workflows = subject.get_workflows_for_project(projects.first)
+    projects = subject.projects
+    workflows = subject.workflows_for_project(projects.first)
 
     _(workflows.keys).must_equal(%w[build_test_and_deploy security])
     _(workflows['security'].merge({ 'recent_runs' => [] })).must_equal(expected['security'])
