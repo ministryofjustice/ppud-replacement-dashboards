@@ -47,36 +47,35 @@ def get_climate_weight(statuses)
   weight
 end
 
-def build_info(builds = [])
-  return {} if builds.empty?
+# def build_info(builds = [])
+#   return {} if builds.empty?
 
-  build = builds.first
+#   build = builds.first
 
-  {
-    build_num: build['build_num'],
-    build_url: build['build_url'],
-    workflow: build['workflows']['workflow_name'],
-    job_name: build['workflows']['job_name'],
-    committer: build['committer_name'],
-    commit_str: build['subject'],
-    status: build['status'],
-    climate: get_climate(builds)
-  }
-end
+#   {
+#     build_num: build['build_num'],
+#     build_url: build['build_url'],
+#     workflow: build['workflows']['workflow_name'],
+#     job_name: build['workflows']['job_name'],
+#     committer: build['committer_name'],
+#     commit_str: build['subject'],
+#     status: build['status'],
+#     climate: get_climate(builds)
+#   }
+# end
 
 SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
   api = CircleCiApi.new
 
-  api.projects_and_workflows.each do |project, workflows|
-    workflows.each do |workflow, build_data|
+  api.get_projects_and_workflows.each do |project, workflows|
+    workflows.each do |workflow, workflow_data|
       data_id = "circle-ci-#{api.gh_org}-#{project}-#{workflow}"
-
-      begin
-        data = build_info(build_data['builds'])
-      rescue StandardError
-        warn "ERROR processing #{data_id}"
-        next
-      end
+      data = {
+        pipeline_num: workflow_data['pipeline_number'],
+        pipeline_url: workflow_data['pipeline_url'],
+        workflow_name: workflow_data['name'],
+        workflow_status: workflow_data['status']
+      }
 
       send_event(data_id, data) unless data.empty?
     end

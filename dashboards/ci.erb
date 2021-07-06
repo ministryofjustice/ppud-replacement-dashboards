@@ -2,7 +2,7 @@
 
 <%
   api = CircleCiApi.new
-  projects_and_workflows = api.projects_and_workflows
+  projects_and_workflows = api.get_projects_and_workflows
   projects = projects_and_workflows.keys
 %>
 

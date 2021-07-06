@@ -20,47 +20,53 @@ class CircleCiApi
     }
   end
 
-  def projects
-    self
-      .class
-      .get('/v1.1/projects', @options)
-      .select { |proj| proj['username'] == @gh_org }
-      .map { |proj| proj['reponame'] }
-      .sort
+  def get_projects
+    @projects ||= self
+                  .class
+                  .get('/v1.1/projects', @options)
+                  .select { |proj| proj['username'] == @gh_org }
+                  .sort_by { |proj| proj['reponame'] }
   end
 
-  def workflows_for_project(project)
+  def get_workflows_for_project(project)
     workflows = {}
 
-    self
-      .class
-      .get("/v1.1/project/#{project_slug(project)}/tree/main")
-      .each do |build|
-        workflow_name = build['workflows']['workflow_name']
-        next if ['Build Error', 'workflow'].include?(workflow_name)
+    project['branches']['main']['latest_workflows'].each do |workflow_name, workflow_info|
+      next if ['Build%20Error', 'workflow'].include?(workflow_name)
 
-        workflows[workflow_name] ||= {
-          'id' => build['workflows']['workflow_id'],
-          'builds' => []
-        }
+      puts "processing #{project['reponame']} -- #{workflow_name}"
 
-        workflows[workflow_name]['builds'].push(build)
-      end
+      workflow = get_workflow(workflow_info['id'])
+      workflows[workflow_name] = workflow.merge({ 'pipeline_url' => workflow_pipeline_url(workflow) })
+    end
 
     workflows
   end
 
-  def projects_and_workflows
+  def get_workflow(workflow_id)
+    self.class.get("/v2/workflow/#{workflow_id}")
+  end
+
+  def get_projects_and_workflows
     data = {}
 
-    projects.each do |project_name|
-      data[project_name] = workflows_for_project(project_name)
+    get_projects.each do |project|
+      data[project['reponame']] = get_workflows_for_project(project)
     end
 
     data
   end
 
   private
+
+  def workflow_pipeline_url(workflow)
+    format(
+      'https://app.circleci.com/pipelines/%s/%s/workflows/%s',
+      workflow['project_slug'],
+      workflow['pipeline_number'],
+      workflow['id']
+    )
+  end
 
   def project_slug(project)
     "github/#{@gh_org}/#{project}"
