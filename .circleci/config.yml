@@ -83,12 +83,12 @@ workflows:
               only:
                 - main
     jobs:
-      - hmpps/veracode_policy_scan:
-          context:
-            - veracode-credentials
-            - hmpps-common-vars
-          teams: Sentence Management
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+      # - hmpps/veracode_policy_scan:
+      #     context:
+      #       - veracode-credentials
+      #       - hmpps-common-vars
+      #     teams: Sentence Management
+      #     slack_channel: << pipeline.parameters.alerts-slack-channel >>
 
       - hmpps/trivy_latest_scan:
           context:
