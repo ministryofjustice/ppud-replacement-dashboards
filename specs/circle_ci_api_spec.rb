@@ -20,11 +20,24 @@ module CircleCiApiHelpers
   end
 
   def stub_workflow_requests(options = {})
-    Dir.glob(json_dir + '/v2_workflow_*.json').each do |filepath|
+    Dir.glob("#{json_dir}/v2_workflow_*.json").each do |filepath|
       filename = File.basename(filepath)
       workflow = json_struct(filename)
 
       url           = "https://circleci.com/api/v2/workflow/#{workflow['id']}"
+      status        = options.fetch(:status, 200)
+      response_body = options.fetch(:response_body, json_string(filename))
+
+      stub_request(:get, url).to_return(status: status, body: response_body)
+    end
+  end
+
+  def stub_workflow_runs_requests(options = {})
+    Dir.glob("#{json_dir}/v2_workflow_runs__*.json").each do |filepath|
+      filename = File.basename(filepath)
+      matcher = /__(.+)__(.+).json/.match(filename)
+
+      url           = "https://circleci.com/api/v2/insights/gh/ministryofjustice/#{matcher[1]}/workflows/#{matcher[2]}\?branch\=main"
       status        = options.fetch(:status, 200)
       response_body = options.fetch(:response_body, json_string(filename))
 
@@ -48,6 +61,7 @@ describe CircleCiApi do
   it '#get_workflows_for_project(<project>) - returns a hash of workflows for the project (and their status)' do
     stub_projects_request
     stub_workflow_requests
+    stub_workflow_runs_requests
 
     expected = {
       'security' => {
@@ -60,7 +74,9 @@ describe CircleCiApi do
         'pipeline_number' => 144,
         'created_at' => '2021-07-02T07:03:53Z',
         'stopped_at' => '2021-07-02T07:10:17Z',
-        'pipeline_url' => 'https://app.circleci.com/pipelines/gh/ministryofjustice/manage-recalls-api/144/workflows/f4b87ad9-da1c-4ff9-a761-08c8ea7e8709'
+        'pipeline_url' => 'https://app.circleci.com/pipelines/gh/ministryofjustice/manage-recalls-api/144/workflows/f4b87ad9-da1c-4ff9-a761-08c8ea7e8709',
+        'recent_runs' => [],
+        'climate' => '9'
       }
     }
 
@@ -68,6 +84,7 @@ describe CircleCiApi do
     workflows = subject.get_workflows_for_project(projects.first)
 
     _(workflows.keys).must_equal(%w[build_test_and_deploy security])
-    _(workflows['security']).must_equal(expected['security'])
+    _(workflows['security'].merge({ 'recent_runs' => [] })).must_equal(expected['security'])
+    _(workflows.dig('security', 'recent_runs').length).must_equal(29)
   end
 end
