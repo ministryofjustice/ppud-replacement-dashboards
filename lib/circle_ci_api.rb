@@ -2,6 +2,7 @@
 
 require 'httparty'
 require 'date'
+require 'parallel'
 
 # Constants for the display formatting and calculations
 module Constants
@@ -23,6 +24,7 @@ class CircleCiApi
   include HTTParty
   base_uri 'https://circleci.com/api'
   format :json
+  logger ::Logger.new($stdout), :info, :apache
 
   attr_reader :gh_org
 
@@ -46,8 +48,9 @@ class CircleCiApi
 
   def get_workflows_for_project(project)
     workflows = {}
+    workflows_to_process = project.dig('branches', 'main', 'latest_workflows')
 
-    project['branches']['main']['latest_workflows'].each do |workflow_name, workflow_info|
+    Parallel.each(workflows_to_process, in_threads: 5) do |workflow_name, workflow_info|
       next if ['Build%20Error', 'workflow'].include?(workflow_name)
 
       workflow = get_workflow(workflow_info['id'])
@@ -77,7 +80,7 @@ class CircleCiApi
   def get_projects_and_workflows
     data = {}
 
-    get_projects.each do |project|
+    Parallel.each(get_projects, in_threads: 5) do |project|
       data[project['reponame']] = get_workflows_for_project(project)
     end
 

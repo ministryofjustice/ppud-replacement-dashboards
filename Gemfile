@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'httparty'
+gem 'parallel'
 gem 'smashing'
 
 group :dev do
