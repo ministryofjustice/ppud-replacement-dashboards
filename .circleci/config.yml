@@ -2,16 +2,35 @@ version: 2.1
 
 orbs:
   hmpps: ministryofjustice/hmpps@3.6
+  ruby: circleci/ruby@1
 
 parameters:
   alerts-slack-channel:
     type: string
     default: ppud-replacement-devs
 
+jobs:
+  test:
+    docker:
+      - image: cimg/ruby:2.7-node
+    environment:
+      CIRCLE_CI_AUTH_TOKEN: foobar
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+      - run:
+          name: Run Test Suite
+          command: bundle exec rake test
+
 workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - test
+
       - hmpps/helm_lint:
           name: helm_lint
 
@@ -19,6 +38,8 @@ workflows:
           name: build_docker
           publish: false
           persist_container_image: true
+          requires:
+            - test
 
       - hmpps/trivy_pipeline_scan:
           name: trivy_scan_low_medium_cves
@@ -62,12 +83,12 @@ workflows:
               only:
                 - main
     jobs:
-      - hmpps/veracode_policy_scan:
-          context:
-            - veracode-credentials
-            - hmpps-common-vars
-          teams: Sentence Management
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+      # - hmpps/veracode_policy_scan:
+      #     context:
+      #       - veracode-credentials
+      #       - hmpps-common-vars
+      #     teams: Sentence Management
+      #     slack_channel: << pipeline.parameters.alerts-slack-channel >>
 
       - hmpps/trivy_latest_scan:
           context:

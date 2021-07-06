@@ -1,11 +1,17 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'circleci'
+gem 'httparty'
 gem 'smashing'
 
 group :dev do
   gem 'awesome_print'
-  gem 'rubocop'
-  gem 'solargraph'
+  gem 'minitest'
   gem 'pry'
+  gem 'rake'
+  gem 'rubocop'
+  gem 'rubocop-minitest'
+  gem 'rubocop-rake'
+  gem 'webmock'
 end

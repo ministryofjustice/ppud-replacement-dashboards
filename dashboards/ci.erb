@@ -1,7 +1,8 @@
 <% content_for(:title) { "Build Status | PPUD Replacement" } %>
 
 <%
-  projects_and_workflows = Ppud.projects_and_workflows
+  api = CircleCiApi.new
+  projects_and_workflows = api.projects_and_workflows
   projects = projects_and_workflows.keys
 %>
 
@@ -13,7 +14,7 @@
       <% workflows = projects_and_workflows[project_name].keys %>
       <% workflows.sort.reverse.each do |workflow_name| %>
         <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-          <div data-id="circle-ci-<%= GH_ORG %>-<%= project_name %>-<%= workflow_name %>" data-view="CircleCi" data-title="<%= project_name %>"></div>
+          <div data-id="circle-ci-<%= api.gh_org %>-<%= project_name %>-<%= workflow_name %>" data-view="CircleCi" data-title="<%= project_name %>"></div>
         </li>
       <% end %>
     <% end %>
