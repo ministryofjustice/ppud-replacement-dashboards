@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Constants for the display formatting and calculations
 module Constants
-  STATUSES = %w[failed passed running started broken timedout no_tests fixed success canceled]
+  STATUSES = %w[failed passed running started broken timedout no_tests fixed success canceled].freeze
   FAILED, PASSED, RUNNING, STARTED, BROKEN, TIMEDOUT, NOTESTS, FIXED, SUCCESS, CANCELED = STATUSES
   FAILED_C   = 0.05
   BROKEN_C   = 0.05
@@ -13,10 +16,21 @@ module Constants
   SUCCESS_C  = 1.0
 end
 
-def get_climate(builds = [])
-  return '|' if builds.empty?
-
+def get_climate(builds)
   statuses = builds[0..10].map { |build| build['status'] }.compact
+  weight = get_climate_weight(statuses)
+
+  case weight
+  when 0.0..0.25  then '9'
+  when 0.26..0.5  then '7'
+  when 0.51..0.75 then '1'
+  when 0.76..1.0  then 'v'
+  else
+    '|'
+  end
+end
+
+def get_climate_weight(statuses)
   weight = nil
 
   statuses.each do |status|
@@ -30,14 +44,7 @@ def get_climate(builds = [])
     weight = weight.nil? ? factor : weight * factor
   end
 
-  case weight
-  when 0.0..0.25  then '9'
-  when 0.26..0.5  then '7'
-  when 0.51..0.75 then '1'
-  when 0.76..1.0  then 'v'
-  else
-    '|'
-  end
+  weight
 end
 
 def build_info(builds = [])
@@ -66,7 +73,7 @@ SCHEDULER.every('1m', { first_in: '2s', allow_overlapping: false }) do
 
       begin
         data = build_info(build_data['builds'])
-      rescue StandardError => e
+      rescue StandardError
         warn "ERROR processing #{data_id}"
         next
       end

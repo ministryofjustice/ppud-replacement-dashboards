@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONFixtures
   # Return the path to the JSON fixtures directory
   def json_dir
