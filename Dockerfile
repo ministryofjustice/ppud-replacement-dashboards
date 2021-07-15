@@ -7,7 +7,7 @@ RUN mkdir /app
 
 RUN apk update && \
   apk upgrade && \
-  apk add --no-cache nodejs tzdata build-base
+  apk add --no-cache nodejs tzdata build-base aws-cli
 
 RUN addgroup --gid 2000 appuser && \
   adduser --uid 2000 --disabled-password --ingroup appuser --home /app appuser
