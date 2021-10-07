@@ -1,4 +1,4 @@
-FROM ruby:2.7-alpine3.13
+FROM ruby:2.7.4-alpine3.13
 
 ARG BUILD_NUMBER
 ARG GIT_REF
@@ -32,7 +32,8 @@ WORKDIR /app
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 
-RUN bundle config set --local without 'dev' && \
+RUN gem install bundler && \
+  bundle config set --local without 'dev' && \
   bundle config set --local deployment 'true' && \
   bundle config set --local frozen 'true' && \
   bundle install

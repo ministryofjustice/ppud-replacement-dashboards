@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.6
+  hmpps: ministryofjustice/hmpps@3.11
   ruby: circleci/ruby@1
 
 parameters:
@@ -38,18 +38,18 @@ workflows:
           name: build_docker
           publish: false
           persist_container_image: true
-          requires:
-            - test
 
       - hmpps/trivy_pipeline_scan:
           name: trivy_scan_low_medium_cves
           fail_build: false
           cve_severities_to_check: UNKNOWN,LOW,MEDIUM
+          additional_args: --skip-dirs /usr/local/lib/ruby/gems/
           requires:
             - build_docker
 
       - hmpps/trivy_pipeline_scan:
           name: trivy_scan
+          additional_args: --skip-dirs /usr/local/lib/ruby/gems/
           requires:
             - build_docker
 
@@ -93,4 +93,5 @@ workflows:
       - hmpps/trivy_latest_scan:
           context:
             - hmpps-common-vars
+          additional_args: --skip-dirs /usr/local/lib/ruby/gems/
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
