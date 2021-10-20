@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 
 gem 'httparty'
 gem 'parallel'
+gem 'pg'
+gem 'sequel'
 gem 'smashing'
 
 group :dev do

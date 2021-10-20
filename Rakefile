@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/lib')
 require 'rake/testtask'
+require 'db'
 
 Rake::TestTask.new do |t|
   t.libs.push 'lib'
@@ -9,3 +11,12 @@ Rake::TestTask.new do |t|
 end
 
 task default: [:test]
+
+namespace :db do
+  desc 'Run database migrations'
+  task :migrate do
+    Db.connect
+    Db.migrate
+    Db.disconnect
+  end
+end

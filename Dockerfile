@@ -42,4 +42,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["bundle", "exec", "smashing", "start", "-p", "3000", "-e", "production"]
+CMD ["./entrypoint.sh"]
