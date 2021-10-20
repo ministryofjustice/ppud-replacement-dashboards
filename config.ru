@@ -3,7 +3,7 @@
 require 'dashing'
 
 configure do
-  set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :auth_token, ENV.fetch('AUTH_TOKEN', 'AUTH_TOKEN')
   set :default_dashboard, 'ci'
 
   # See http://www.sinatrarb.com/intro.html > Available Template Languages on
