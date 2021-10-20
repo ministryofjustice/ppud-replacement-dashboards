@@ -1,0 +1,10 @@
+<h1 class="title" data-bind="environment"></h1>
+
+<ul class="items list-nostyle">
+  <li class="item" data-foreach-item="items" data-bind-class="item.status">
+    <span class="label">UI:</span> <span class="label version" data-bind="item.ui_version"></span>
+    <span class="label">API:</span> <span class="label version" data-bind="item.api_version"></span>
+    <a data-bind-href="item.e2e_build_url" target="_blank">View Run</a>
+    <div class="clearfix" />
+  </li>
+</ul>
