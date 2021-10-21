@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
+require_relative 'spec_helper'
 require 'webmock/minitest'
 
 WebMock.disable_net_connect!

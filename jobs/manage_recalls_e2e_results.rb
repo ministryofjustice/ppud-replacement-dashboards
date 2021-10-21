@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-DB = Db.connect
-
 def collate_results(env)
   {
     environment: env,

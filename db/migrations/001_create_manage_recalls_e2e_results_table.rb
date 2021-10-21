@@ -3,7 +3,8 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:manage_recalls_e2e_results) do
-      String :e2e_build_url, primary_key: true, null: false
+      primary_key :id
+      String :e2e_build_url, null: false, unique: true
       String :environment, null: false
       TrueClass :successful, null: false
       String :ui_version, null: false
