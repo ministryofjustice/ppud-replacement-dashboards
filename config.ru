@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
+require 'db'
+
+AUTH_TOKEN = ENV.fetch('AUTH_TOKEN', 'AUTH_TOKEN')
+DB = Db.connect
+
 require 'dashing'
+require 'data_reciever'
 
 configure do
-  set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :auth_token, AUTH_TOKEN
   set :default_dashboard, 'ci'
 
   # See http://www.sinatrarb.com/intro.html > Available Template Languages on
@@ -23,4 +30,7 @@ map Sinatra::Application.assets_prefix do
   run Sinatra::Application.sprockets
 end
 
-run Sinatra::Application
+run Rack::URLMap.new(
+  '/' => Sinatra::Application,
+  '/data' => DataReciever
+)

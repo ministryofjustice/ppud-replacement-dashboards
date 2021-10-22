@@ -1,0 +1,24 @@
+---
+version: "3.1"
+services:
+  db:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=dashboards
+      - POSTGRES_USER=dashboards
+      - POSTGRES_DB=dashboards
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "--username=postgres",
+          "--host=127.0.0.1",
+          "--port=5432",
+        ]
+      interval: 2s
+      timeout: 1m
+      retries: 5
+      start_period: 10s
