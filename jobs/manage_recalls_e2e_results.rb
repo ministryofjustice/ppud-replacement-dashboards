@@ -3,7 +3,7 @@
 def collate_results(env)
   {
     environment: env,
-    items: DB[:manage_recalls_e2e_results].where(environment: env).map do |item|
+    items: ManageRecallsE2eResult.latest_for_env(env).map do |item|
       {
         e2e_build_url: item[:e2e_build_url],
         status: item[:successful] ? 'passed' : 'failed',
