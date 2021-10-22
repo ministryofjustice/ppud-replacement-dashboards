@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sequel'
 
 Sequel.migration do
@@ -8,7 +10,9 @@ Sequel.migration do
       String :environment, null: false
       TrueClass :successful, null: false
       String :ui_version, null: false
+      String :ui_build_url, null: false
       String :api_version, null: false
+      String :api_build_url, null: false
     end
   end
 end

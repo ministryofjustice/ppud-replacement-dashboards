@@ -31,7 +31,9 @@ describe 'POST /manage-recalls-e2e-result' do
       environment: 'dev',
       successful: true,
       ui_version: '12345',
-      api_version: '54321'
+      ui_build_url: 'https://foo.com',
+      api_version: '54321',
+      api_build_url: 'https://foo.com'
     }
   end
 
