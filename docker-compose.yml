@@ -6,9 +6,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=ppud
-      - POSTGRES_USER=ppud
-      - POSTGRES_DB=ppud-replacement-dashboards
+      - POSTGRES_PASSWORD=dashboards
+      - POSTGRES_USER=dashboards
+      - POSTGRES_DB=dashboards
     healthcheck:
       test:
         [
