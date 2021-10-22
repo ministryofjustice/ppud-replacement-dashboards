@@ -17,6 +17,11 @@ jobs:
       CIRCLE_CI_AUTH_TOKEN: foobar
     steps:
       - checkout
+      - run:
+          name: Install SQLite3
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y sqlite3 libsqlite3-dev
       - ruby/install-deps
       - ruby/rubocop-check:
           format: progress
