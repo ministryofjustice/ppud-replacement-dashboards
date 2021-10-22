@@ -7,7 +7,7 @@ class ManageRecallsE2eResult < Sequel::Model
 
   def self.latest_for_env(env)
     ManageRecallsE2eResult.where(environment: env)
-                          .reverse(:id)
+                          .reverse(:updated_at)
                           .limit(20)
   end
 
@@ -22,5 +22,16 @@ class ManageRecallsE2eResult < Sequel::Model
     else
       ManageRecallsE2eResult.create(result)
     end
+  end
+
+  def as_json
+    {
+      e2e_build_url: e2e_build_url,
+      status: successful ? 'passed' : 'failed',
+      ui_version: ui_version,
+      ui_build_url: ui_build_url,
+      api_version: api_version,
+      api_build_url: api_build_url
+    }
   end
 end

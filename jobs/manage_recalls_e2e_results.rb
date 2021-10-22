@@ -3,16 +3,7 @@
 def collate_results(env)
   {
     environment: env,
-    items: ManageRecallsE2eResult.latest_for_env(env).map do |item|
-      {
-        e2e_build_url: item[:e2e_build_url],
-        status: item[:successful] ? 'passed' : 'failed',
-        ui_version: item[:ui_version],
-        ui_build_url: item[:ui_build_url],
-        api_version: item[:api_version],
-        api_build_url: item[:api_build_url]
-      }
-    end
+    items: ManageRecallsE2eResult.latest_for_env(env).map(&:as_json)
   }
 end
 
