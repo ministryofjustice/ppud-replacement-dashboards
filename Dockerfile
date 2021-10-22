@@ -7,7 +7,7 @@ RUN mkdir /app
 
 RUN apk update && \
   apk upgrade && \
-  apk add --no-cache nodejs tzdata build-base aws-cli p7zip
+  apk add --no-cache nodejs tzdata build-base aws-cli p7zip postgresql-dev
 
 ARG MSSODBCSQL_VERSION=17.7.2.1-1
 ARG MSSQLTOOLS_VERSION=17.7.1.1-1
