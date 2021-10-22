@@ -30,4 +30,6 @@ generic-service:
 
   namespace_secrets:
     ppud-replacement-dashboards:
-      CIRCLE_CI_AUTH_TOKEN: "CIRCLE_CI_AUTH_TOKEN"
+      CIRCLE_CI_AUTH_TOKEN: CIRCLE_CI_AUTH_TOKEN
+    dashboards-database:
+      DATABASE_URL: DATABASE_URL
