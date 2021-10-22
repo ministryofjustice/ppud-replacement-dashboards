@@ -20,10 +20,6 @@ $label-color: rgba(255, 255, 255, 0.8);
     display: none;
   }
 
-  .circle_ci_link:hover {
-    color: #222426;
-  }
-
   ol,
   ul {
     margin: 0px;
@@ -48,6 +44,7 @@ $label-color: rgba(255, 255, 255, 0.8);
     li {
       margin-top: 5px;
       padding: 15px;
+      padding-top: 20px;
 
       &.failed {
         background-color: $background-failed-color;
@@ -61,15 +58,22 @@ $label-color: rgba(255, 255, 255, 0.8);
         color: $label-color;
         font-size: 20px;
         word-wrap: break-word;
+        margin: 0 5px;
 
-        &.version {
-          font-family: "Courier New", Courier, monospace;
-          font-weight: bold;
-          padding: 5px;
+        &.version,
+        &.e2e_link {
+          font-family: Consolas, "Courier New", Courier, monospace;
+          padding: 7px;
           border: $background-color solid 1px;
           border-radius: 5px;
           background-color: $value-color;
           color: $background-color;
+        }
+
+        &.version:hover,
+        &.e2e_link:hover {
+          color: $label-color;
+          background-color: $background-color;
         }
       }
     }

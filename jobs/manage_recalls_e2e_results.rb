@@ -8,7 +8,9 @@ def collate_results(env)
         e2e_build_url: item[:e2e_build_url],
         status: item[:successful] ? 'passed' : 'failed',
         ui_version: item[:ui_version],
-        api_version: item[:api_version]
+        ui_build_url: item[:ui_build_url],
+        api_version: item[:api_version],
+        api_build_url: item[:api_build_url]
       }
     end
   }
