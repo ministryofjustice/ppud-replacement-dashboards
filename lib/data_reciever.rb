@@ -10,7 +10,7 @@ class DataReciever < Sinatra::Base
     halt 403, 'Forbidden' if data[:auth_token] != ENV.fetch('AUTH_TOKEN', 'AUTH_TOKEN')
 
     result = data.reject { |key, _val| key == :auth_token }
-    ManageRecallsE2eResult.update_or_create(result)
+    ManageRecallsE2eResult.update_or_create_result(result)
 
     status 200
     'OK'

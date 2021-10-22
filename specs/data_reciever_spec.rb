@@ -49,13 +49,31 @@ describe 'POST /manage-recalls-e2e-result' do
     _(table.count).must_equal(1)
   end
 
-  it 'does not fail if a result is sent twice' do
+  it 'does not fail if the same result is sent twice' do
     _(table.count).must_equal(0)
     post(uri, good_req.to_json, headers)
     _(last_response.status).must_equal(200)
     post(uri, good_req.to_json, headers)
     _(last_response.status).must_equal(200)
     _(table.count).must_equal(1)
+  end
+
+  it 'updates an result record if the same versions are sent again' do
+    first_res = good_req
+    second_res = good_req.merge({ e2e_build_url: 'https://bar.com' })
+
+    # first result
+    _(table.count).must_equal(0)
+    post(uri, first_res.to_json, headers)
+    _(last_response.status).must_equal(200)
+    _(table.count).must_equal(1)
+    _(table.first[:e2e_build_url]).must_equal(first_res[:e2e_build_url])
+
+    # second_result
+    post(uri, second_res.to_json, headers)
+    _(last_response.status).must_equal(200)
+    _(table.count).must_equal(1)
+    _(table.first[:e2e_build_url]).must_equal(second_res[:e2e_build_url])
   end
 
   it 'raises an error if an incomplete object is passed' do
