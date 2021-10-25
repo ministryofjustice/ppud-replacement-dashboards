@@ -17,5 +17,6 @@ Metrics/BlockLength:
   CountComments: false
   Max: 25
   Exclude:
+    - 'Rakefile'
     - '**/*.gemspec'
     - '**/*_spec.rb'

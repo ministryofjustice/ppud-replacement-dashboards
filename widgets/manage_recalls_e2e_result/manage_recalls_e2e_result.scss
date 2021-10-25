@@ -1,6 +1,6 @@
 $value-color: #fff;
 $background-color: #444;
-$background-failed-color: #a31f1f;
+$background-failed-color: #903d3d;
 $background-passed-color: #8fb347;
 
 $title-color: rgba(255, 255, 255, 1);
@@ -10,6 +10,7 @@ $label-color: rgba(255, 255, 255, 0.8);
   background-color: $background-color;
   padding: 0px;
   vertical-align: top;
+  font-size: 16px;
 
   .title {
     color: $title-color;
@@ -56,14 +57,13 @@ $label-color: rgba(255, 255, 255, 0.8);
 
       .label {
         color: $label-color;
-        font-size: 20px;
         word-wrap: break-word;
         margin: 0 5px;
 
         &.version,
         &.e2e_link {
           font-family: Consolas, "Courier New", Courier, monospace;
-          padding: 7px;
+          padding: 5px;
           border: $background-color solid 1px;
           border-radius: 5px;
           background-color: $value-color;
