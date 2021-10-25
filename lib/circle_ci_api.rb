@@ -84,6 +84,9 @@ class CircleCiApi
       data[project['reponame']] = workflows_for_project(project)
     end
 
+    data['manage-recalls-e2e-tests'].delete('dev_only')
+    data['manage-recalls-e2e-tests'].delete('dev_and_local')
+
     data
   end
 
