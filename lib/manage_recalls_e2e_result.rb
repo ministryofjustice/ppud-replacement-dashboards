@@ -8,7 +8,7 @@ class ManageRecallsE2eResult < Sequel::Model
   def self.latest_for_env(env)
     ManageRecallsE2eResult.where(environment: env)
                           .reverse(:updated_at)
-                          .limit(20)
+                          .limit(15)
   end
 
   def self.update_or_create_result(result)
@@ -31,7 +31,8 @@ class ManageRecallsE2eResult < Sequel::Model
       ui_version: ui_version,
       ui_build_url: ui_build_url,
       api_version: api_version,
-      api_build_url: api_build_url
+      api_build_url: api_build_url,
+      timestamp: updated_at.strftime('%F %H:%M')
     }
   end
 end
