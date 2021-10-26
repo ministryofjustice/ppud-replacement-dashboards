@@ -21,6 +21,10 @@ $label-color: rgba(255, 255, 255, 0.8);
     display: none;
   }
 
+  .current-version {
+    margin-bottom: 10px;
+  }
+
   ol,
   ul {
     margin: 0px;
@@ -37,6 +41,22 @@ $label-color: rgba(255, 255, 255, 0.8);
   }
 
   .list-nostyle {
+  }
+
+  .label {
+    color: $label-color;
+    word-wrap: break-word;
+    margin: 0 5px;
+
+    &.version,
+    &.e2e_link {
+      font-family: Consolas, "Courier New", Courier, monospace;
+      padding: 5px;
+      border: $background-color solid 1px;
+      border-radius: 5px;
+      background-color: $value-color;
+      color: $background-color;
+    }
   }
 
   .items {
@@ -56,20 +76,6 @@ $label-color: rgba(255, 255, 255, 0.8);
       }
 
       .label {
-        color: $label-color;
-        word-wrap: break-word;
-        margin: 0 5px;
-
-        &.version,
-        &.e2e_link {
-          font-family: Consolas, "Courier New", Courier, monospace;
-          padding: 5px;
-          border: $background-color solid 1px;
-          border-radius: 5px;
-          background-color: $value-color;
-          color: $background-color;
-        }
-
         &.version:hover,
         &.e2e_link:hover {
           color: $label-color;
