@@ -1,0 +1,15 @@
+{
+  "healthy": true,
+  "checks": {
+    "hmppsAuth": "OK",
+    "manageRecallsApi": "OK",
+    "tokenVerification": "OK"
+  },
+  "uptime": 10284.531213339,
+  "build": {
+    "buildNumber": "2021-10-26.8796.412554e",
+    "buildUrl": "https://circleci.com/gh/ministryofjustice/manage-recalls-ui/8796",
+    "gitRef": "412554e1ba55bfa42f4679cc45747f0a61f06d52"
+  },
+  "version": "2021-10-26.8796.412554e"
+}

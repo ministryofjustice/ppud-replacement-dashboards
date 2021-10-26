@@ -1,0 +1,83 @@
+{
+  "status": "UP",
+  "components": {
+    "clamAV": {
+      "status": "UP",
+      "details": {
+        "active": true
+      }
+    },
+    "courtRegister": {
+      "status": "UP",
+      "details": {
+        "status": "OK"
+      }
+    },
+    "db": {
+      "status": "UP",
+      "details": {
+        "database": "PostgreSQL",
+        "validationQuery": "isValid()"
+      }
+    },
+    "diskSpace": {
+      "status": "UP",
+      "details": {
+        "total": 266402316288,
+        "free": 159248371712,
+        "threshold": 10485760,
+        "exists": true
+      }
+    },
+    "gotenberg": {
+      "status": "UP",
+      "details": {
+        "status": "OK"
+      }
+    },
+    "healthInfo": {
+      "status": "UP",
+      "details": {
+        "version": "2021-10-25.9245.9b07f95",
+        "build_url": "https://circleci.com/gh/ministryofjustice/manage-recalls-api/9245"
+      }
+    },
+    "hmppsAuth": {
+      "status": "UP",
+      "details": {
+        "status": "OK"
+      }
+    },
+    "livenessState": {
+      "status": "UP"
+    },
+    "ping": {
+      "status": "UP"
+    },
+    "prisonRegister": {
+      "status": "UP",
+      "details": {
+        "status": "OK"
+      }
+    },
+    "prisonerOffenderSearch": {
+      "status": "UP",
+      "details": {
+        "status": "OK"
+      }
+    },
+    "readinessState": {
+      "status": "UP"
+    },
+    "s3": {
+      "status": "UP",
+      "details": {
+        "status": 200
+      }
+    }
+  },
+  "groups": [
+    "liveness",
+    "readiness"
+  ]
+}

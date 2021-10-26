@@ -1,5 +1,12 @@
 <h1 class="title" data-bind="environment"></h1>
 
+<div class="current-version">
+  Current -
+  API: <span class="label version" data-bind="current_api_version"></span>
+  UI: <span class="label version" data-bind="current_ui_version"></span>
+</div>
+<div class="clearfix" />
+
 <ul class="items list-nostyle">
   <li class="item" data-foreach-item="items" data-bind-class="item.status">
     <span data-bind="item.timestamp"></span>
@@ -10,12 +17,12 @@
 
     =>
 
-    <span class="">API:</span>
+    <span>API:</span>
     <a data-bind-href="item.api_build_url" target="_blank">
       <span class="label version" data-bind="item.api_version"></span>
     </a>
 
-    <span class="">UI:</span>
+    <span>UI:</span>
     <a data-bind-href="item.ui_build_url" target="_blank">
       <span class="label version" data-bind="item.ui_version"></span>
     </a>

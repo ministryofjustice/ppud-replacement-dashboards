@@ -8,7 +8,7 @@ class ManageRecallsE2eResult < Sequel::Model
   def self.latest_for_env(env)
     ManageRecallsE2eResult.where(environment: env)
                           .reverse(:updated_at)
-                          .limit(15)
+                          .limit(12)
   end
 
   def self.update_or_create_result(result)
