@@ -14,6 +14,8 @@ generic-service:
     host: app-hostname.local    # override per environment
     tlsSecretName: ppud-replacement-dashboards-cert
     path: /
+    # which cluster are we on: live-1 is blue, live is green
+    contextColour: green
 
   livenessProbe:
     httpGet:
