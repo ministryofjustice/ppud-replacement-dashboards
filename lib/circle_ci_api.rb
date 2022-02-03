@@ -84,13 +84,22 @@ class CircleCiApi
       data[project['reponame']] = workflows_for_project(project)
     end
 
-    data['manage-recalls-e2e-tests'].delete('dev_only')
-    data['manage-recalls-e2e-tests'].delete('dev_and_local')
-
-    data
+    clean_projects_and_workflows(data)
   end
 
   private
+
+  def clean_projects_and_workflows(data)
+    data.delete('ppud-replacement-bandiera')
+    data['manage-recalls-api'].delete('pact')
+    data['manage-recalls-e2e-tests'].delete('build_docker')
+    data['manage-recalls-e2e-tests'].delete('deploy_only')
+    data['manage-recalls-e2e-tests'].delete('dev_and_local')
+    data['manage-recalls-e2e-tests'].delete('dev_only')
+    data['manage-recalls-e2e-tests'].delete('docker_and_build')
+
+    data
+  end
 
   def calc_climate(workflow_runs)
     statuses = workflow_runs[0..10].map { |run| run['status'] }.compact

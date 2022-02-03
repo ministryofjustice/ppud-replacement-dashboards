@@ -7,21 +7,7 @@ RUN mkdir /app
 
 RUN apk update && \
   apk upgrade && \
-  apk add --no-cache nodejs tzdata build-base aws-cli p7zip postgresql-dev curl
-
-ARG MSSODBCSQL_VERSION=17.7.2.1-1
-ARG MSSQLTOOLS_VERSION=17.7.1.1-1
-
-RUN set -x \
-  && tempDir="$(mktemp -d)" \
-  && chown nobody:nobody $tempDir \
-  && cd $tempDir \
-  && wget "https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_${MSSODBCSQL_VERSION}_amd64.apk" \
-  && wget "https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_${MSSQLTOOLS_VERSION}_amd64.apk" \
-  && apk add --allow-untrusted msodbcsql17_${MSSODBCSQL_VERSION}_amd64.apk \
-  && apk add --allow-untrusted mssql-tools_${MSSQLTOOLS_VERSION}_amd64.apk \
-  && rm -rf $tempDir \
-  && rm -rf /var/cache/apk/*
+  apk add --no-cache nodejs tzdata build-base postgresql-dev curl
 
 RUN addgroup --gid 2000 appuser && \
   adduser --uid 2000 --disabled-password --ingroup appuser --home /app appuser
