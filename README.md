@@ -22,6 +22,8 @@ Requires:
 You will need to add a CircleCI API token to your environment:
 `export CIRCLE_CI_AUTH_TOKEN='TOKEN'`
 
-`bundle exec smashing start`
+```sh
+./scripts/start-local.sh
+```
 
 Services should be available on http://localhost:3030
