@@ -7,9 +7,9 @@ class ManageRecallsApi
   format :json
 
   URI = {
-    'dev' => 'https://manage-recalls-api-dev.hmpps.service.justice.gov.uk',
-    'preprod' => 'https://manage-recalls-api-preprod.hmpps.service.justice.gov.uk',
-    'prod' => 'https://manage-recalls-api.hmpps.service.justice.gov.uk'
+    'dev' => ENV.fetch('MANAGE_RECALLS_API_DEV', 'http://manage-recalls-api.manage-recalls-dev:81'),
+    'preprod' => ENV.fetch('MANAGE_RECALLS_API_PREPROD', 'http://manage-recalls-api.manage-recalls-preprod:81'),
+    'prod' => ENV.fetch('MANAGE_RECALLS_API_PROD', 'http://manage-recalls-api.manage-recalls-prod:81')
   }.freeze
 
   attr_reader :base_uri, :options

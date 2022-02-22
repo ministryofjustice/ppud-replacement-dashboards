@@ -2,7 +2,7 @@
 generic-service:
   nameOverride: ppud-replacement-dashboards
 
-  replicaCount: 4
+  replicaCount: 1
 
   image:
     repository: quay.io/hmpps/ppud-replacement-dashboards
