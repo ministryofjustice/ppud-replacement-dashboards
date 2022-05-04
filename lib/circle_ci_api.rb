@@ -102,6 +102,8 @@ class CircleCiApi
   end
 
   def calc_climate(workflow_runs)
+    return '|' if workflow_runs.nil?
+
     statuses = workflow_runs[0..10].map { |run| run['status'] }.compact
     weight = calc_climate_weight(statuses)
 
