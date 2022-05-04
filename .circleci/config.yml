@@ -23,9 +23,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y sqlite3 libsqlite3-dev
       - ruby/install-deps
-      - ruby/rubocop-check:
-          format: progress
-          label: Inspecting with Rubocop
+      # - ruby/rubocop-check:
+      #     format: progress
+      #     label: Inspecting with Rubocop
       - run:
           name: Run Test Suite
           command: bundle exec rake test
